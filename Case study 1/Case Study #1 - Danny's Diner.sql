@@ -1,3 +1,4 @@
+# create database and insert data
 CREATE database dannys_diner;
 use dannys_diner;
 
