@@ -11,7 +11,7 @@ Note: all the information regarding the case study has been sourced from: [here]
 
 - [Introduction](#introduction)
 - [Dataset](#dataset)
-- [Entity Relationship Diagram](#entity-relationship)
+- [Entity relationship diagram](#entity-relationship)
 
 <!-- Introduction -->
 # Introduction:
@@ -80,6 +80,7 @@ The final members table captures the join_date when a customer_id joined the bet
 | B           | 2021-01-09 |
 
 <!-- Entity Relationship Diagram -->
-# Entity Relationship Diagram: 
+
+# Entity relationship diagram: 
 
 ![image](https://user-images.githubusercontent.com/81607668/127271130-dca9aedd-4ca9-4ed8-b6ec-1e1920dca4a8.png)
