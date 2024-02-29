@@ -128,6 +128,7 @@ set distance=regexp_replace(distance, '[a-z]+', '')
 where distance<>'null'
 ;
 
+# Questions and solutions
 #A. Pizza Metrics
 #How many pizzas were ordered?
 select count(*) as pizza_ordered_count
