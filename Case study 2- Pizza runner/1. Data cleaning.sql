@@ -111,6 +111,7 @@ VALUES
 
 # Create a temporary table named customer_orders_temp based on customer_orders table
 	# Replace empty and 'null' values in exclusions and extras columns with null
+	
 create temporary table customer_orders_temp as
 select 
   order_id, 
@@ -164,7 +165,7 @@ from runner_orders_temp
 
 # Change data type for the foloowing columns:
 	# pickup_time to DATETIME
-    # distance to FLOAT
+   	# distance to FLOAT
 	# duration to INT
 
 alter table runner_orders_temp
