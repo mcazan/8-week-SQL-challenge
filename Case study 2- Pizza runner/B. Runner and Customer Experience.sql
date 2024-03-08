@@ -73,7 +73,7 @@ group by runner_id, order_id, distance, duration
 
 #What is the successful delivery percentage for each runner?
 select r.runner_id,
-	round((sum(if(distance<>'null', 1, 0))/count(*))*100,0) as success_delivery_perc
+	round(count(distance)/count(*)*100,0) as success_delivery_perc
 from runner_orders_temp as r
 group by r.runner_id
 ;
