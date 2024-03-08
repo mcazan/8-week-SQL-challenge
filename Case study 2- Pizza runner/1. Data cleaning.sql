@@ -111,7 +111,8 @@ VALUES
 
 # Create a temporary table named customer_orders_temp based on customer_orders table
 	# Replace empty and 'null' values in exclusions and extras columns with null
-	
+
+drop temporary table if exists customer_orders_temp;	
 create temporary table customer_orders_temp as
 select 
   order_id, 
@@ -134,7 +135,8 @@ from  customer_orders_temp
 
 # Create a temporary table named runner_orders_temp based on runner_orders table
 	# Replace empty and 'null' values in pickup_time, distance, duration and cancellation columns with null
-    
+
+drop temporary table if exists runner_orders_temp;    
 create temporary table runner_orders_temp as
 select 
   order_id, 

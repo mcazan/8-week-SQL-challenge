@@ -171,7 +171,7 @@ order by s.customer_id
 
 # 9.If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 select s.customer_id,
-        sum(if (m.product_name='sushi', m.price*2, m.price)) as points
+        sum(if (m.product_name='sushi', m.price*20, m.price*10)) as points
 from sales as s
 left join menu as m
 on s.product_id=m.product_id
