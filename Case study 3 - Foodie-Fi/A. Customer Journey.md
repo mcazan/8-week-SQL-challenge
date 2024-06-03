@@ -4,14 +4,6 @@
 description about each customer’s onboarding journey.Try to keep it as short as possible - you may also
 want to run some sort of join to make your explanations a bit easier!*
 
-### Steps to answering the question:
-
-- The sample customer_id given in the sample subscription table are 1, 2, 11, 13, 15, 16, 18, 19. 
-
-- Create a base table with the following columns: customer_id, plan_id, plan_name, start_date.
-
-- Order by Customer_id
-	
 ### Solution
 
 ```sql
