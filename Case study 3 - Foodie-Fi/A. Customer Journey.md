@@ -1,4 +1,4 @@
- A. Customer Journey
+# A. Customer Journey
 
 *Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief
 description about each customer’s onboarding journey.Try to keep it as short as possible - you may also
@@ -18,30 +18,8 @@ where customer_id in ('1', '2', '11', '13', '15', '16', '18', '19')
 order by customer_id
 ;
 ```
-customer_id | plan_name | start_date | day_difference  
---| -- | -- | --
-1 | trial | 2020-08-01 | null
-1 | 1 | basic monthly | 2020-08-08
-2 | 0 | trial | 2020-09-20
-2 | 3 | pro annual | 2020-09-27
-11 | 0 | trail | 2020-11-19
-11 | 4 | churn | 2020-11-26
-13 | 0 | trial | 2020-12-15
-13 | 1 | basic monthly | 2020-12-22
-13 | 2 | pro monthly | 2021-03-29
-15 | 0 | trial | 2020-03-17
-15 | 2 | pro monthly | 2020-03-24
-15 | 4 | churn | 2020-04-29
-16 | 0 | trial | 2020-05-31
-16 | 1 | basic monthly | 2020-06-07
-16 | 3 | pro annual | 2020-10-21
-18 | 0 | trial | 2020-07-06
-18 | 2 | pro monthly | 2020-07-13
-19 | 0 | trial | 2020-06-22
-19 | 2 | pro monthly | 2020-06-29
-19 | 3 | pro annual | 2020-08-29
 
-<img width="556" alt="image" src="https://user-images.githubusercontent.com/81607668/129758340-b7cd527c-31f3-4f33-8d99-5b0a4baab378.png">
+![Customer journey](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/5b8c0085-77a6-4e45-8019-29d41d4cdf3d)
 	
 ### Brief description on the customers journey based on the results from the above query:
 
