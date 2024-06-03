@@ -13,6 +13,8 @@ from subscriptions
 ![Customer_count](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/137f756f-8b56-4572-90e6-972663752ca0)
 
 *What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value
+
+```sql
 select month(start_date) as month,
         year(start_date) as year,
         count(customer_id) as trial_count
@@ -22,10 +24,13 @@ where plan_name='trial'
 group by month, year
 order by year, month
 ;
+```
 ### Answer:
 
 
 *What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name
+
+```sql
 select plan_name,
 		plan_id,
         count(*) as plan_count
@@ -34,11 +39,13 @@ left join subscriptions s using (plan_id)
 where year(start_date) > 2020
 group by plan_name
 order by plan_id
-;        
+;
+```   
 ### Answer:
 
 
 *What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
+```sql
 select count(distinct customer_id) as churn_customer_count,
 		round(100 * count(distinct customer_id)/(select count(distinct customer_id)
 									from subscriptions), 1) as percentage_customer_churn
@@ -46,10 +53,12 @@ from subscriptions s
 join plans p using (plan_id)
 where p.plan_id = 4
 ;
+```
 ### Answer:
 
 
 *How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+```sql
 with ranked as (select *,
 						dense_rank() over (partition by customer_id order by plan_id) as plan_ranked
 				from subscriptions)
@@ -60,10 +69,12 @@ select count(case when plan_ranked = 2 and plan_id = 4
 from ranked r
 where plan_ranked = 2 and plan_id = 4         
 ;
+```
 
 ### Answer:
 
 *What is the number and percentage of customer plans after their initial free trial?
+```sql
 with next_plan as (select customer_id,
 							plan_id,
 							lead(plan_id) over(partition by customer_id order by plan_id) as next_plan_id
@@ -76,10 +87,12 @@ where next_plan_id is not null and plan_id = 0
 group by next_plan_id      
 order by next_plan_id  
 ;
+```
 ### Answer:
 
 
 *What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
+```sql
 with next_dates as(select *,
 							lead(start_date) over(partition by customer_id order by plan_id) as next_date
 					from subscriptions
@@ -93,10 +106,12 @@ where next_date is null
 group by plan_name
 order by plan_id   
 ;
+```
 ### Answer:
 
 
 *How many customers have upgraded to an annual plan in 2020?
+```sql
 select plan_name,
 		count(distinct customer_id) as customer_count
 from subscriptions s
@@ -104,11 +119,13 @@ join plans p using(plan_id)
 where plan_name like '%annual'
 		and year(start_date) = '2020'
 group by plan_name        
-;        
+;
+```        
 ### Answer:
 
 
 *How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
+```sql
 with trial_plans as (select customer_id,
 							start_date
 					from subscriptions s
@@ -122,10 +139,12 @@ annual_plans as (select customer_id,
 select avg(datediff(upgrade_date, start_date)) as avg_days_to_upgrade
 from trial_plans
 join annual_plans using(customer_id)
-;		
+;
+```	
 ### Answer:
 
 *Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+```sql
 with trial_plans as (select customer_id,
 							start_date
 					from subscriptions s
@@ -159,9 +178,9 @@ from bins
 group by bins
 order by days_to_upgrade    
 ;
-
+```
 ### version 2
-
+```sql
 with trial_plans as (select customer_id, 
 							start_date
                     from subscriptions s
@@ -179,12 +198,12 @@ where upgrade_date is not null
 group by floor(datediff(upgrade_date, start_date) / 30)
 order by floor(datediff(upgrade_date, start_date) / 30)
 ;        
-
-; 
+```
 ### Answer:
 
 
 *How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+```sql
 with next_plans as (select *,
 						lead(plan_id) over(partition by customer_id order by plan_id) as next_plan
 					from subscriptions
@@ -194,5 +213,6 @@ from next_plans
 where plan_id = 2
 		and next_plan = 1 
 ;
+```
 ### Answer:
 
