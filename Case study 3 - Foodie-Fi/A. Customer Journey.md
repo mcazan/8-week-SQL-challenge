@@ -7,20 +7,20 @@ want to run some sort of join to make your explanations a bit easier!*
 ### Solution
 
 ```sql
---selecting the unique customers based on the sample from the subscriptions table
-SELECT s.customer_id,
-	   p.plan_id, 
-	   p.plan_name, 
-	   s.start_date
-FROM plans AS p
-INNER JOIN subscriptions AS s
-ON p.plan_id = s.plan_id
-WHERE s.customer_id IN (1,2,11,13,15,16,18,19);-- selected 8 unique customers;
+select customer_id,
+	plan_name,
+        start_date,
+	timestampdiff(day, lag(start_date) over(partition by customer_id order by start_date), start_date) as day_difference,
+        timestampdiff(month, lag(start_date) over(partition by customer_id order by start_date), start_date) as month_difference
+from subscriptions
+join plans using (plan_id)
+where customer_id in ('1', '2', '11', '13', '15', '16', '18', '19')
+order by customer_id
+;
 ```
-	
-customer_id | plan_id | plan_name | start_date
+customer_id | plan_name | start_date | day_difference  
 --| -- | -- | --
-1 | 0 | trial | 2020-08-01
+1 | trial | 2020-08-01 | null
 1 | 1 | basic monthly | 2020-08-08
 2 | 0 | trial | 2020-09-20
 2 | 3 | pro annual | 2020-09-27
@@ -40,5 +40,17 @@ customer_id | plan_id | plan_name | start_date
 19 | 0 | trial | 2020-06-22
 19 | 2 | pro monthly | 2020-06-29
 19 | 3 | pro annual | 2020-08-29
+
+<img width="556" alt="image" src="https://user-images.githubusercontent.com/81607668/129758340-b7cd527c-31f3-4f33-8d99-5b0a4baab378.png">
 	
 ### Brief description on the customers journey based on the results from the above query:
+
+All customers in the sample started with a trial period. After the trial period:
+ - Customer 1 chose the basic monthly plan. 
+ - Customer 2 went streight with pro annual. 
+ - Customer 11 cancelled right after trial. 
+ - Customer 13 went with basic monthly and then upgraded to pro monthly after 3 months. 
+ - Customer 15 chose the pro monthly plan and churn one month later.
+ - Customer 16 chose basic monthly before upgrading to pro annual plan 4 month later. 
+ - Customer 18 went with the pro monthly plan. 
+ - Customer 19 chose pro monthly and then upgraded after 2 months to the pro annual plan.
