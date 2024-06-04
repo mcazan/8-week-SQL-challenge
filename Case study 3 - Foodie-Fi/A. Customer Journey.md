@@ -21,7 +21,7 @@ order by customer_id
 
 ![Customer journey](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/5b8c0085-77a6-4e45-8019-29d41d4cdf3d)
 	
-### Brief description on the customers journey based on the results from the above query:
+### Brief description on the customers journey based on the results from the above query
 
 All customers in the sample started with a trial period. After the trial period:
  - Customer 1 chose the basic monthly plan. 
