@@ -81,7 +81,7 @@ from calculate_payment_amount
 order by customer_id, plan_id, payment_date
 ;                
 ```                          
-#### *Displaying the new table content. Considering the lenght I will show just the first 37 rows.*
+#### *Displaying the new table content. Considering the lenght, I will show just the first 37 rows.*
 ```sql
 select *
 from payments_2020
