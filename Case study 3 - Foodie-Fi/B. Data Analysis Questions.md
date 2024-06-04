@@ -1,15 +1,18 @@
 # B. Data Analysis Questions
-1. How many customers has Foodie-Fi ever had?
+*1. How many customers has Foodie-Fi ever had?*
+   
+### Answer:
 ```sql
 select count(distinct customer_id) as customer_count
 from subscriptions
 ;
 ```
-### Answer:
 
 ![Customer_count](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/137f756f-8b56-4572-90e6-972663752ca0)
 
-2. What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value
+*2. What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value*
+
+### Answer:
 ```sql
 select month(start_date) as month,
         year(start_date) as year,
@@ -21,11 +24,12 @@ group by month, year
 order by year, month
 ;
 ```
-### Answer:
 
 ![trial_count](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/fbfa020d-0b2a-46ae-b867-2d16b408627f)
 
-3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name
+*3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name*
+
+### Answer:
 ```sql
 select plan_name,
 	plan_id,
@@ -37,11 +41,12 @@ group by plan_name
 order by plan_id
 ;
 ```   
-### Answer:
 
 ![plan_count](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/79f8f93e-70b8-4eef-943d-8b7305cbc647)
 
-4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place
+*4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place*
+
+### Answer:
 ```sql
 select count(distinct customer_id) as churn_customer_count,
 	round(100 * count(distinct customer_id)/(select count(distinct customer_id) from subscriptions), 1) as percentage_customer_churn
@@ -50,11 +55,12 @@ join plans p using (plan_id)
 where p.plan_id = 4
 ;
 ```
-### Answer:
 
 ![customer_churn](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/2de403bf-92db-4fe8-8bc0-a0babcb56aba)
 
-5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+*5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?*
+
+### Answer:
 ```sql
 with ranked as (select *,
 			dense_rank() over (partition by customer_id order by plan_id) as plan_ranked
@@ -65,11 +71,12 @@ from ranked
 where plan_ranked = 2 and plan_id = 4         
 ;
 ```
-### Answer:
 
 ![churn_after_ttrial](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/70ef05a3-08e6-4a06-9c08-acc902c8ff17)
 
-6. What is the number and percentage of customer plans after their initial free trial?
+*6. What is the number and percentage of customer plans after their initial free trial?*
+
+### Answer:
 ```sql
 with next_plan as (select customer_id,
 			  plan_id,
@@ -84,11 +91,12 @@ group by next_plan_id
 order by next_plan_id  
 ;
 ```
-### Answer:
 
 ![plans_after_trail](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/50df6f6f-abe3-4e03-94c9-c62d81e9c840)
 
-7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
+*7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?*
+
+### Answer:
 ```sql
 with next_dates as(select *,
 			lead(start_date) over(partition by customer_id order by plan_id) as next_date
@@ -104,11 +112,12 @@ group by plan_name
 order by plan_id   
 ;
 ```
-### Answer:
 
 ![customer_count_by_plan](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/0366c48c-af12-45df-b197-5f6c97ee6488)
 
-8. How many customers have upgraded to an annual plan in 2020?
+*8. How many customers have upgraded to an annual plan in 2020?*
+
+### Answer:
 ```sql
 select plan_name,
 	count(distinct customer_id) as customer_count
@@ -119,11 +128,12 @@ where plan_name like '%annual'
 group by plan_name        
 ;
 ```        
-### Answer:
 
 ![annual_plan](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/13853617-ad35-458d-a42f-84cb5ca4e65b)
 
-9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
+*9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?*
+
+### Answer:
 ```sql
 with trial_plans as (select customer_id,
 				start_date
@@ -140,11 +150,12 @@ from trial_plans
 join annual_plans using(customer_id)
 ;
 ```	
-### Answer:
 
 ![avg days to upgrade](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/c25d016f-0b0e-4432-a483-f335bea8894b)
 
-10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+*10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)*
+
+### Answer:
 ```sql
 with trial_plans as (select customer_id,
 			    start_date
@@ -200,11 +211,12 @@ group by floor(datediff(upgrade_date, start_date) / 30)
 order by floor(datediff(upgrade_date, start_date) / 30)
 ;        
 ```
-### Answer:
 
 ![avg days to upgrade bins](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/fe787267-6a67-4290-9497-9f4a9a621714)
 
-11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+*11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?*
+
+### Answer:
 ```sql
 with next_plans as (select *,
 			   lead(plan_id) over(partition by customer_id order by plan_id) as next_plan
@@ -216,7 +228,6 @@ where plan_id = 2
       and next_plan = 1 
 ;
 ```
-### Answer:
 
 ![downgrade](https://github.com/mcazan/8-week-SQL-challenge/assets/135700965/6b693459-41ae-4d95-a85c-e568d2599c4a)
 
