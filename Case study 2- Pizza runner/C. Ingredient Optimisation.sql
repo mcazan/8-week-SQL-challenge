@@ -117,8 +117,8 @@ with exclusions_extras as (
 		(select *,
 			topping_name as excluded_topping
 		from customer_orders_row_temp
-        left join standard_ingredients 
-        using (pizza_id)
+        	left join standard_ingredients 
+        	using (pizza_id)
 		left join pizza_toppings
 		on exclusions=topping_id
 		) as omit
@@ -126,13 +126,13 @@ with exclusions_extras as (
 	on extras=t.topping_id
 	)
 select row_num,
-		order_id,
-		case 
-        when excluded_topping is null and extra_topping is null then pizza_name
-        when excluded_topping is not null and extra_topping is null then concat(pizza_name, ' - ', 'Exclude ', group_concat(distinct excluded_topping))
-        when excluded_topping is null and extra_topping is not null then concat(pizza_name, ' - ', 'Extra ', group_concat(distinct extra_topping))
-        else concat_ws(' - ', pizza_name,  'Exclude ', group_concat(distinct excluded_topping), 'Extra ', group_concat(distinct extra_topping))
-        end as order_item	
+	order_id,
+	case 
+        	when excluded_topping is null and extra_topping is null then pizza_name
+       		when excluded_topping is not null and extra_topping is null then concat(pizza_name, ' - ', 'Exclude ', group_concat(distinct excluded_topping))
+        	when excluded_topping is null and extra_topping is not null then concat(pizza_name, ' - ', 'Extra ', group_concat(distinct extra_topping))
+        	else concat_ws(' - ', pizza_name,  'Exclude ', group_concat(distinct excluded_topping), 'Extra ', group_concat(distinct extra_topping))
+        	end as order_item	
 from exclusions_extras
 group by row_num
 order by order_id
@@ -175,7 +175,7 @@ with ingredients as (
                                 from extras_temp e
                                 where c.row_num=e.row_num)
             	then 2
-           	 else 1
+           	else 1
             	end as count_topping
      from customer_orders_new_temp c
      join pizza_names using (pizza_id)
